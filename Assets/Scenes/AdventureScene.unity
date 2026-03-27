@@ -1041,8 +1041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67401497acc5054418d02ad2dae337aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardSize: {x: 8, y: 10}
-  buffer: 1.1
+  boardSize: {x: 8, y: 10.5}
+  buffer: 1
 --- !u!1 &539057598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,12 +1075,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 66645061}
+  - {fileID: 2071011749}
   - {fileID: 1881038914}
   - {fileID: 1929268801}
   - {fileID: 1636782342}
   - {fileID: 783126403}
   - {fileID: 805070575}
-  - {fileID: 2071011749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4974,7 +4974,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 459018311}
         m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: OnReplayClick
+        m_MethodName: OnAdventureClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

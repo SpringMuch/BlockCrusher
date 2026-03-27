@@ -115,7 +115,7 @@ public class Blocks : MonoBehaviour
     {
         loseGameObject.SetActive(true);
         SoundManager.Instance.PlaySound(SoundType.Lose);
-        losePanel.SetActive(true);
+        StartCoroutine(RestartGameAfterDelay(2f));
         try
         {
             if (AdLoader.Instance != null)
@@ -131,5 +131,10 @@ public class Blocks : MonoBehaviour
         {
             Debug.LogError("Lỗi khi hiển thị quảng cáo: " + e.Message);
         }
+    }
+    public IEnumerator RestartGameAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        losePanel.SetActive(true);
     }
 }

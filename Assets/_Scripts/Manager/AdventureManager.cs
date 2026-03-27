@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class AdventureManager : MonoBehaviour
 {
@@ -81,9 +82,20 @@ public class AdventureManager : MonoBehaviour
             {
                 board.SetCellExplicitly(r, c, 2);
 
-                Vector3 spawnPos = new Vector3(c + 0.5f, r + 0.5f, -1.0f);
+                Vector3 spawnPos = new Vector3(c + 0.5f, r + 0.5f, 0.0f);
 
                 GameObject challengeObj = Instantiate(challengePrefabs[typeIndex], spawnPos, Quaternion.identity, board.transform);
+
+                var sg = challengeObj.GetComponent<SortingGroup>();
+                if (sg != null)
+                {
+                    sg.sortingOrder = 1;
+                }
+                else
+                {
+                    var sr = challengeObj.GetComponentInChildren<SpriteRenderer>();
+                    if (sr != null) sr.sortingOrder = 2;
+                }
 
                 activeChallengeBlocks.Add(new ActiveChallengeBlock
                 {
