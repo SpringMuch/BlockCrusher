@@ -30,7 +30,6 @@ public static class Polyominos
             {0, 1},
             {1, 1}
         },
-
         new int[,]
         {
             {0, 1},
@@ -40,6 +39,16 @@ public static class Polyominos
         {
             {1, 1},
             {0, 1}
+        },
+        new int[,]
+        {
+            {1, 1},
+            {1, 0}
+        },
+        new int[,]
+        {
+            {1, 0},
+            {1, 1}
         },
         new int[,]
         {
@@ -61,10 +70,41 @@ public static class Polyominos
 
         new int[,]
         {
+            {0, 1, 1},
+            {1, 1, 0}
+        },
+        new int[,]
+        {
+            {0, 1, 0},
+            {1, 1, 1}
+        },
+        new int[,]
+        {
+            {1, 1, 1},
+            {0, 1, 0}
+        },
+        new int[,]
+        {
+            {0, 1, 0},
+            {0, 1, 1},
+            {0, 1, 0}
+        },
+        new int[,]
+        {
+            {0, 1, 0},
+            {1, 1, 0},
+            {0, 1, 0}
+        },
+        new int[,]
+        {
+            {0, 1},
+            {1, 0}
+        },
+        new int[,]
+        {
             {1},
             {1}
         },
-
         new int[,]
         {
             {1},

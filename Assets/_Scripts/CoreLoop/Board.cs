@@ -245,12 +245,15 @@ public class Board : MonoBehaviour
 
     private void ClearFullLineColumns()
     {
-        foreach( var c in fullLineColumns)
+        float waveSpeed = 0.05f;
+
+        foreach ( var c in fullLineColumns)
         {
             for (var r = 0; r < Size; ++r)
             {
                 data[r, c] = 0;
-                cells[r, c].Hide();
+                float delay = Mathf.Abs(r - (Size / 2f - 0.5f)) * waveSpeed;
+                cells[r, c].PlayBreakAnimation(delay);
             }
         }
         SoundManager.Instance.PlaySound(SoundType.Break);
@@ -258,12 +261,15 @@ public class Board : MonoBehaviour
 
     private void ClearFullLineRows()
     {
+        float waveSpeed = 0.05f;
+
         foreach (var r in fullLineRows)
         {
             for (var c = 0; c < Size; ++c)
             {
                 data[r, c] = 0;
-                cells[r, c].Hide();
+                float delay = Mathf.Abs(c - (Size / 2f - 0.5f)) * waveSpeed;
+                cells[r, c].PlayBreakAnimation(delay);
             }
         }
         SoundManager.Instance.PlaySound(SoundType.Break);
