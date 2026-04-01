@@ -21,8 +21,6 @@ public class AdLoader : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
     }
 
@@ -35,29 +33,35 @@ public class AdLoader : MonoBehaviour
         });
     }
 
-    // Mỗi khi chuyển sang Scene bất kỳ (Menu hay Play), hàm này sẽ chạy
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        ShowBannerAd();
-    }
-
     #region Banner Logic
     public void LoadBannerAd()
     {
-        if (!_isInitialized || _bannerView != null) return;
+        if (!_isInitialized) return;
+
+        if (_bannerView != null)
+        {
+            _bannerView.Destroy();
+            _bannerView = null;
+        }
 
         _bannerView = new BannerView(_bannerId, AdSize.Banner, AdPosition.Bottom);
-        _bannerView.LoadAd(new AdRequest());
 
-        _bannerView.OnBannerAdLoadFailed += (error) => {
+        _bannerView.OnBannerAdLoaded += () =>
+        {
+            _bannerView.Show();
+        };
+
+        _bannerView.OnBannerAdLoadFailed += (error) =>
+        {
             _bannerView = null;
             StartCoroutine(RetryLoad("banner", 15f));
         };
+
+        _bannerView.LoadAd(new AdRequest());
     }
 
     public void ShowBannerAd()
     {
-        // Kiểm tra nếu banner tồn tại thì gọi hiện lại cho chắc chắn
         _bannerView?.Show();
     }
     #endregion
@@ -66,24 +70,52 @@ public class AdLoader : MonoBehaviour
     public void LoadInterstitialAd()
     {
         if (!_isInitialized) return;
-        if (_interstitialAd != null) _interstitialAd.Destroy();
 
-        InterstitialAd.Load(_interstitialId, new AdRequest(), (ad, error) => {
-            if (error != null)
+        if (_interstitialAd != null)
+        {
+            _interstitialAd.Destroy();
+            _interstitialAd = null;
+        }
+
+        InterstitialAd.Load(_interstitialId, new AdRequest(), (ad, error) =>
+        {
+            if (error != null || ad == null)
             {
-                StartCoroutine(RetryLoad("interstitial", 15f));
+                StartCoroutine(RetryLoad("interstitial", 10f));
                 return;
             }
+
             _interstitialAd = ad;
-            _interstitialAd.OnAdFullScreenContentClosed += () => { LoadInterstitialAd(); };
+
+            _interstitialAd.OnAdFullScreenContentClosed += () =>
+            {
+                LoadInterstitialAd();
+            };
         });
     }
 
     public void ShowInterstitialAd()
     {
-        // Vẫn dùng cho logic Lose() trong Blocks.cs
-        if (_interstitialAd != null && _interstitialAd.CanShowAd()) _interstitialAd.Show();
-        else LoadInterstitialAd();
+        if (_interstitialAd != null && _interstitialAd.CanShowAd())
+        {
+            _interstitialAd.Show();
+        }
+        else
+        {
+            LoadInterstitialAd();
+
+            StartCoroutine(ShowInterstitialWithDelay(1f));
+        }
+    }
+
+    private IEnumerator ShowInterstitialWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (_interstitialAd != null && _interstitialAd.CanShowAd())
+        {
+            _interstitialAd.Show();
+        }
     }
     #endregion
 
@@ -96,10 +128,8 @@ public class AdLoader : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Chỉ hủy sự kiện và dọn dẹp nếu đây là Instance chính
         if (Instance == this)
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
             _bannerView?.Destroy();
             _interstitialAd?.Destroy();
         }

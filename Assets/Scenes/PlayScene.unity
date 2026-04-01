@@ -1042,7 +1042,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 9.681652
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardSize: {x: 8, y: 10.5}
-  buffer: 1
+  buffer: 1.1
 --- !u!1 &539057598
 GameObject:
   m_ObjectHideFlags: 0

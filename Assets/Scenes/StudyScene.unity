@@ -1174,7 +1174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardSize: {x: 8, y: 10.5}
-  buffer: 1
+  buffer: 1.1
 --- !u!1 &539057598
 GameObject:
   m_ObjectHideFlags: 0

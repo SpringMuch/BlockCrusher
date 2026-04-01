@@ -33,16 +33,6 @@ public class Blocks : MonoBehaviour
         Generate();
     }
 
-    //private void Generate()
-    //{
-    //    for(var i = 0; i < blocks.Length; ++i)
-    //    {
-    //        polyominoIndexes[i] = Random.Range(0, Polyominos.Length);
-    //        blocks[i].gameObject.SetActive(true);
-    //        blocks[i].Show(polyominoIndexes[i]);
-    //        ++blockCount;
-    //    }
-    //}
     private void Generate()
     {
         for (var i = 0; i < blocks.Length; ++i)
@@ -115,26 +105,25 @@ public class Blocks : MonoBehaviour
     {
         loseGameObject.SetActive(true);
         SoundManager.Instance.PlaySound(SoundType.Lose);
-        StartCoroutine(RestartGameAfterDelay(2f));
-        try
-        {
-            if (AdLoader.Instance != null)
-            {
-                AdLoader.Instance.ShowInterstitialAd();
-            }
-            else
-            {
-                Debug.LogWarning("AdLoader.Instance đang bị NULL! Game sẽ không hiện quảng cáo nhưng vẫn chạy tiếp bình thường.");
-            }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Lỗi khi hiển thị quảng cáo: " + e.Message);
-        }
+        //StartCoroutine(RestartGameAfterDelay(2.5f));
+        StartCoroutine(HandleLoseFlow());
     }
     public IEnumerator RestartGameAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        losePanel.SetActive(true);
+    }
+    private IEnumerator HandleLoseFlow()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        if (AdLoader.Instance != null)
+        {
+            AdLoader.Instance.ShowInterstitialAd();
+        }
+
+        yield return new WaitForSeconds(1f);
+
         losePanel.SetActive(true);
     }
 }
